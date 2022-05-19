@@ -49,7 +49,7 @@ class Gore(RectSprite):
 		return gores
 
 	def _get_colour(self):
-		return (75 + (self.speed*10), 35, 35)
+		return (35, 35, 35 + (self.speed*10))
 
 	def update_move(self, game, r=False):
 		self.x += self.xmove * self.speed
