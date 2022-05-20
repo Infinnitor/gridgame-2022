@@ -29,6 +29,9 @@ class RectSprite(Sprite):
 	def get_rect(self):
 		return (self.x, self.y, self.w, self.h)
 
+	def get_rect_centered(self):
+		return (self.x - self.w/2, self.y - self.h/2, self.w, self.h)
+
 
 class CircleSprite(Sprite):
 	def __init__(self, pos, size):

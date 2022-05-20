@@ -2,7 +2,7 @@ from sprite import *
 
 
 class ScoreBoard(Sprite):
-	COMBO_TICKER_LENGTH = 60
+	COMBO_TICKER_LENGTH = 120
 	LAYER = "MANAGER"
 
 	def __init__(self):
@@ -11,16 +11,25 @@ class ScoreBoard(Sprite):
 		self._combo_ticker = 0
 
 	def increase_score(self, killsno):
+		if killsno < 1:
+			return
+
 		self._score += killsno * (self._combo + 1)
 		self._combo += killsno
-		self._combo_ticker = 0 if killsno else self._combo_ticker
+		self._combo_ticker = 0
 
 	def update_move(self, game):
+		game.sprites.SCORETEXT.change_text(f"SCORE: {self._score}")
+		game.sprites.COMBOTEXT.change_text(f"COMBO: {self._combo}")
+		game.sprites.COMBOTICK.change_text(str(ScoreBoard.COMBO_TICKER_LENGTH - self._combo_ticker))
+
+		if game.sprites.PLAYER.destroy is True:
+			return
+
 		self._combo_ticker += 1
 		if self._combo_ticker > ScoreBoard.COMBO_TICKER_LENGTH:
 			self._combo_ticker = 0
-			self._combo -= 1 if self._combo > 0 else 0
-		print(self._combo, end="\r")
+			self._combo = 0
 
 	def get_score(self):
 		return self._score

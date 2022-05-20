@@ -13,6 +13,8 @@ from enemies import Enemy, EnemySpawner, Sniper
 import gore
 from scoring import ScoreBoard
 
+from textsprite import NoneFontSprite
+
 
 @gameloop
 def main(game):
@@ -30,6 +32,14 @@ def main(game):
 	game.sprites.SPAWNER = EnemySpawner()
 	game.sprites.new(game.sprites.SPAWNER)
 
+	game.sprites.SCORETEXT = NoneFontSprite([125, 100], "0", True)
+	game.sprites.COMBOTEXT = NoneFontSprite([125, 200], "0", True)
+	game.sprites.COMBOTICK = NoneFontSprite([100, 300], "0", True)
+
+	game.sprites.new(game.sprites.SCORETEXT)
+	game.sprites.new(game.sprites.COMBOTEXT)
+	game.sprites.new(game.sprites.COMBOTICK)
+
 	game.sprites.SCORE = ScoreBoard()
 	game.sprites.new(game.sprites.SCORE)
 
@@ -39,7 +49,7 @@ if __name__ == "__main__":
 	g = GameNamespace([1280, 720])
 	g.init_display([1280, 720])
 	g.init_input()
-	g.init_sprites("PLAYER", "MANAGER", "ENEMY", "GRID", "SNIPER", "GORE", "HIGHPARTICLE")
+	g.init_sprites("PLAYER", "MANAGER", "ENEMY", "GRID", "SNIPER", "GORE", "HIGHPARTICLE", "FOREGROUND", "UI")
 	g.init_clock(60)
 	# g.init_clock(60 if len(sys.argv) < 2 else int(sys.argv[1]))
 	g.init_hooks(lambda game: main(game) if game.input.check_key(pygame.K_r, buffer=True) else None)

@@ -35,8 +35,11 @@ class Player(Sprite):
 		# Check movement on horizontal axis
 		if game.input.check_key(pygame.K_LEFT, buffer=True):
 			vel = [-1, 0]
+			self.has_moved_this_frame = True
 		elif game.input.check_key(pygame.K_RIGHT, buffer=True):
 			vel = [1, 0]
+			self.has_moved_this_frame = True
+
 
 		self.x += vel[0]
 
@@ -44,12 +47,15 @@ class Player(Sprite):
 		self.x = 0 if self.x > grid.w-1 else self.x
 		self.x = grid.w-1 if self.x < 0 else self.x
 
-		if vel[0] == 0:
+		if self.has_moved_this_frame is False:
 			# Check movement on vertical axis
 			if game.input.check_key(pygame.K_UP, buffer=True):
 				vel = [0, -1]
+				self.has_moved_this_frame = True
+
 			elif game.input.check_key(pygame.K_DOWN, buffer=True):
 				vel = [0, 1]
+				self.has_moved_this_frame = True
 
 		self.y += vel[1]
 
@@ -100,7 +106,7 @@ class Player(Sprite):
 		game.sprites.SCORE.increase_score(collision_check())
 
 		grid.setsq(self.pos(), Tiles.Player)
-		self.has_moved_this_frame = game.input.check_key(pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN, buffer=True)
+		# self.has_moved_this_frame = game.input.check_key(pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN, buffer=True)
 
 		if self.has_moved_this_frame:
 			game.audio.playsound("walk")
