@@ -168,5 +168,5 @@ class EnemySpawner(Sprite):
 		elif len(game.sprites.get("ENEMY")) < 1 and self._spawn_counter <= self._spawn_limit:
 			self._spawn_enemy(game)
 
-		if game.SCORE > 0 and not game.sprites.get("SNIPER"):
+		if game.sprites.SCORE.get_score() > 0 and not game.sprites.get("SNIPER"):
 			game.sprites.new(Sniper())

@@ -57,7 +57,7 @@ class Player(Sprite):
 		self.y = 0 if self.y > grid.h-1 else self.y
 		self.y = grid.h-1 if self.y < 0 else self.y
 
-		def collision_check():
+		def collision_check(kills=0):
 			# Check for enemy collision
 			sq = grid.getsq(self.pos())
 			if sq == Tiles.Enemy:
@@ -73,8 +73,9 @@ class Player(Sprite):
 					if grid.getsq(check_pos) == Tiles.Enemy:
 						for e in game.sprites.get("ENEMY"):
 							if check_pos == e.pos():
+								kills += 1
+
 								e.kill()
-								game.SCORE += 1
 								p = [check_pos[0]*grid.TILE_SIZE + grid.TILE_SIZE//2, check_pos[1]*grid.TILE_SIZE + grid.TILE_SIZE//2]
 								a_range = math.degrees(math.atan2(vel[1], vel[0]))
 								game.sprites.news(*gore.Gore.goresplash(p, [a_range-50, a_range+50], game.sprites.GORESURF))
@@ -86,15 +87,17 @@ class Player(Sprite):
 				if grid.getsq(check_again) == Tiles.Enemy:
 					self.x += vel[0]
 					self.y += vel[1]
-					collision_check()
+					collision_check(kills)
 
 			# Reset position if touching wall
 			elif sq == Tiles.Wall:
 				self.x, self.y = oldx, oldy
-				return
+				return kills
+
+			return kills
 
 		# Recursive function to kill enemies in a pattern
-		collision_check()
+		game.sprites.SCORE.increase_score(collision_check())
 
 		grid.setsq(self.pos(), Tiles.Player)
 		self.has_moved_this_frame = game.input.check_key(pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN, buffer=True)

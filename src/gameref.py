@@ -76,7 +76,7 @@ class GameNamespace:
 		self.running = False
 
 	def on_exit(self):
-		print(self.SCORE)
+		print(self.sprites.SCORE.get_score())
 
 
 def gameloop(func):

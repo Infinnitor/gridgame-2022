@@ -11,6 +11,7 @@ from playerclass import Player
 from enemies import Enemy, EnemySpawner, Sniper
 
 import gore
+from scoring import ScoreBoard
 
 
 @gameloop
@@ -29,7 +30,8 @@ def main(game):
 	game.sprites.SPAWNER = EnemySpawner()
 	game.sprites.new(game.sprites.SPAWNER)
 
-	game.SCORE = 0
+	game.sprites.SCORE = ScoreBoard()
+	game.sprites.new(game.sprites.SCORE)
 
 
 if __name__ == "__main__":
