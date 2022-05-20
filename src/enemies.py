@@ -31,7 +31,8 @@ class Enemy(Sprite):
 
 	# Function to check if moving to a new position will compromise
 	def _temp_movement(self, game, vel):
-		sq = game.sprites.GRID.getsq([self.x + vel[0], self.y + vel[1]])
+		grid = game.sprites.GRID
+		sq = grid.getsq([self.x + vel[0], self.y + vel[1]])
 
 		# End game if moving to square where player is
 		if sq == Tiles.Player:
@@ -78,7 +79,7 @@ class Enemy(Sprite):
 		if self.destroy:
 			return
 
-		if game.sprites.PLAYER.has_moved_this_frame is True:
+		if game.sprites.ENEMYAUTH.enemies_can_move is True:
 			self._movement(game)
 
 		game.sprites.GRID.setsq([self.x, self.y], Tiles.Enemy)
@@ -94,7 +95,7 @@ class Sniper(Sprite):
 		self._countdown = Sniper.COUNTDOWN_LEN
 
 	def update_move(self, game):
-		if not game.sprites.PLAYER.has_moved_this_frame:
+		if not game.sprites.ENEMYAUTH.enemies_can_move:
 			return
 
 		if self._target is None:
@@ -104,8 +105,6 @@ class Sniper(Sprite):
 			grid = game.sprites.GRID
 
 			self._countdown -= 1
-			if self._countdown >= 1:
-				game.audio.playsound("err")
 
 			if self._countdown < 1:
 				game.audio.playsound("snipe")
@@ -171,3 +170,29 @@ class EnemySpawner(Sprite):
 
 		if game.sprites.SCORE.get_score() > 0 and not game.sprites.get("SNIPER"):
 			game.sprites.new(Sniper())
+
+
+class EnemyMoveAuth(Sprite):
+	AUTH_TIME = 2 # Amount of frames between player moving and enemies moving
+	LAYER = "MANAGER"
+
+	def __init__(self):
+		self.enemy_turn = False
+		self._tick = 0
+
+		self.enemies_can_move = False
+
+	def update_move(self, game):
+		self.enemies_can_move = False
+
+		if self.enemy_turn is True:
+			self._tick += 1
+			if self._tick > EnemyMoveAuth.AUTH_TIME:
+				self.enemies_can_move = True
+				self._tick = 0
+				self.enemy_turn = False
+
+			return
+
+		if game.sprites.PLAYER.has_moved_this_frame:
+			self.enemy_turn = True

@@ -8,7 +8,7 @@ import pygame
 
 from grid import Grid
 from playerclass import Player
-from enemies import Enemy, EnemySpawner, Sniper
+from enemies import Enemy, EnemySpawner, Sniper, EnemyMoveAuth
 
 import gore
 from scoring import ScoreBoard
@@ -43,13 +43,16 @@ def main(game):
 	game.sprites.SCORE = ScoreBoard()
 	game.sprites.new(game.sprites.SCORE)
 
+	game.sprites.ENEMYAUTH = EnemyMoveAuth()
+	game.sprites.new(game.sprites.ENEMYAUTH)
+
 
 if __name__ == "__main__":
 
 	g = GameNamespace([1280, 720])
 	g.init_display([1280, 720])
 	g.init_input()
-	g.init_sprites("PLAYER", "MANAGER", "ENEMY", "GRID", "SNIPER", "GORE", "HIGHPARTICLE", "FOREGROUND", "UI")
+	g.init_sprites("ENEMYVISUALS", "PLAYER", "MANAGER", "ENEMY", "GRID", "SNIPER", "GORE", "HIGHPARTICLE", "FOREGROUND", "UI")
 	g.init_clock(60)
 	# g.init_clock(60 if len(sys.argv) < 2 else int(sys.argv[1]))
 	g.init_hooks(lambda game: main(game) if game.input.check_key(pygame.K_r, buffer=True) else None)

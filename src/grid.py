@@ -112,14 +112,17 @@ class Grid(RectSprite):
 				if sq == Tiles.Player and game.sprites.PLAYER.destroy:
 					continue
 
+				r1 = [self.x + x*TILE_SIZE, self.y + y*TILE_SIZE, TILE_SIZE, TILE_SIZE]
+				r2 = [self.x + x*TILE_SIZE, self.y + y*TILE_SIZE - RIM, TILE_SIZE, TILE_SIZE]
+
 				pygame.draw.rect(
 					game.window,
 					shiftcol(_tile_colours[sq], -15),
-					[self.x + x*TILE_SIZE, self.y + y*TILE_SIZE, TILE_SIZE, TILE_SIZE]
+					r1
 				)
 
 				pygame.draw.rect(
 					game.window,
 					_tile_colours[sq],
-					[self.x + x*TILE_SIZE, self.y + y*TILE_SIZE - RIM, TILE_SIZE, TILE_SIZE]
+					r2
 				)

@@ -202,6 +202,8 @@ class ScreenshakeManager(GameClass):
 		self._is_shaking = False
 
 	def init_box_shake(self, strength, length):
+		if self._shake_positions and sum(self._shake_positions[0]) > strength:
+			return
 
 		self._shake_positions = []
 		for i in range(length):

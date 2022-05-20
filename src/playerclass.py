@@ -31,37 +31,38 @@ class Player(Sprite):
 		grid = game.sprites.GRID
 		grid.setsq(self.pos(), Tiles.Empty)
 
-		vel = [0, 0]
-		# Check movement on horizontal axis
-		if game.input.check_key(pygame.K_LEFT, buffer=True):
-			vel = [-1, 0]
-			self.has_moved_this_frame = True
-		elif game.input.check_key(pygame.K_RIGHT, buffer=True):
-			vel = [1, 0]
-			self.has_moved_this_frame = True
-
-
-		self.x += vel[0]
-
-		# Teleport player if they are off the grid
-		self.x = 0 if self.x > grid.w-1 else self.x
-		self.x = grid.w-1 if self.x < 0 else self.x
-
-		if self.has_moved_this_frame is False:
-			# Check movement on vertical axis
-			if game.input.check_key(pygame.K_UP, buffer=True):
-				vel = [0, -1]
+		if game.sprites.ENEMYAUTH.enemy_turn is False:
+			vel = [0, 0]
+			# Check movement on horizontal axis
+			if game.input.check_key(pygame.K_LEFT, buffer=True):
+				vel = [-1, 0]
+				self.has_moved_this_frame = True
+			elif game.input.check_key(pygame.K_RIGHT, buffer=True):
+				vel = [1, 0]
 				self.has_moved_this_frame = True
 
-			elif game.input.check_key(pygame.K_DOWN, buffer=True):
-				vel = [0, 1]
-				self.has_moved_this_frame = True
 
-		self.y += vel[1]
+			self.x += vel[0]
 
-		# Teleport player if they are off the grid
-		self.y = 0 if self.y > grid.h-1 else self.y
-		self.y = grid.h-1 if self.y < 0 else self.y
+			# Teleport player if they are off the grid
+			self.x = 0 if self.x > grid.w-1 else self.x
+			self.x = grid.w-1 if self.x < 0 else self.x
+
+			if self.has_moved_this_frame is False:
+				# Check movement on vertical axis
+				if game.input.check_key(pygame.K_UP, buffer=True):
+					vel = [0, -1]
+					self.has_moved_this_frame = True
+
+				elif game.input.check_key(pygame.K_DOWN, buffer=True):
+					vel = [0, 1]
+					self.has_moved_this_frame = True
+
+			self.y += vel[1]
+
+			# Teleport player if they are off the grid
+			self.y = 0 if self.y > grid.h-1 else self.y
+			self.y = grid.h-1 if self.y < 0 else self.y
 
 		def collision_check(kills=0):
 			# Check for enemy collision
