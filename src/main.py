@@ -6,14 +6,7 @@ os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 from gameref import GameNamespace, gameloop
 import pygame
 
-from grid import Grid
-from playerclass import Player
-from enemies import Enemy, EnemySpawner, Sniper, EnemyMoveAuth
-
-import gore
-from scoring import ScoreBoard
-
-from textsprite import NoneFontSprite
+from using_sprites import *
 
 
 @gameloop
@@ -27,18 +20,10 @@ def main(game):
 	game.sprites.new(game.sprites.PLAYER)
 	game.sprites.new(Enemy.new(game))
 
-	game.sprites.GORESURF = gore.GoreSurface.from_grid(game.sprites.GRID)
+	game.sprites.GORESURF = GoreSurface.from_grid(game.sprites.GRID)
 
 	game.sprites.SPAWNER = EnemySpawner()
 	game.sprites.new(game.sprites.SPAWNER)
-
-	game.sprites.SCORETEXT = NoneFontSprite([125, 100], "0", True)
-	game.sprites.COMBOTEXT = NoneFontSprite([125, 200], "0", True)
-	game.sprites.COMBOTICK = NoneFontSprite([100, 300], "0", True)
-
-	game.sprites.new(game.sprites.SCORETEXT)
-	game.sprites.new(game.sprites.COMBOTEXT)
-	game.sprites.new(game.sprites.COMBOTICK)
 
 	game.sprites.SCORE = ScoreBoard()
 	game.sprites.new(game.sprites.SCORE)
@@ -50,7 +35,7 @@ def main(game):
 if __name__ == "__main__":
 
 	g = GameNamespace([1280, 720])
-	g.init_display([1280, 720])
+	g.init_display([1280, 720], name="H I T")
 	g.init_input()
 	g.init_sprites("ENEMYVISUALS", "PLAYER", "MANAGER", "ENEMY", "GRID", "SNIPER", "GORE", "HIGHPARTICLE", "FOREGROUND", "UI")
 	g.init_clock(60)
@@ -63,5 +48,6 @@ if __name__ == "__main__":
 		"snipe" : "data/sfx/snipe.wav",
 		"err" : "data/sfx/err.wav",
 	})
+	g.init_debug(fontsize=60)
 
 	main(g)

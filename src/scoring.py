@@ -19,9 +19,9 @@ class ScoreBoard(Sprite):
 		self._combo_ticker = 0
 
 	def update_move(self, game):
-		game.sprites.SCORETEXT.change_text(f"SCORE: {self._score}")
-		game.sprites.COMBOTEXT.change_text(f"COMBO: {self._combo}")
-		game.sprites.COMBOTICK.change_text(str(ScoreBoard.COMBO_TICKER_LENGTH - self._combo_ticker))
+		game.debug.display_text(f"SCORE: {self._score}")
+		game.debug.display_text(f"COMBO: {self._combo}")
+		game.debug.display_text(str(ScoreBoard.COMBO_TICKER_LENGTH - self._combo_ticker))
 
 		if game.sprites.PLAYER.destroy is True:
 			return

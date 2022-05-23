@@ -5,6 +5,7 @@ from math import dist
 import particles
 
 from util.base import normalize
+from util.colour import shiftcol
 import gore
 
 import pygame.draw
@@ -93,6 +94,7 @@ class Sniper(Sprite):
 	def __init__(self):
 		self._target = None
 		self._countdown = Sniper.COUNTDOWN_LEN
+		self.c = (145, 35, 35)
 
 	def update_move(self, game):
 		if not game.sprites.ENEMYAUTH.enemies_can_move:
@@ -130,11 +132,11 @@ class Sniper(Sprite):
 
 			size = (game.sprites.GRID.TILE_SIZE)*(self._countdown/Sniper.COUNTDOWN_LEN)
 
-			pygame.draw.rect(game.window, (35, 35, 135), [pos[0]-size, pos[1]-size, size*2, size*2], 5)
+			pygame.draw.rect(game.window, shiftcol(self.c, -10), [pos[0]-size, pos[1]-size, size*2, size*2], 5)
 
 			size += 20
-			pygame.draw.line(game.window, (35, 35, 135), (pos[0], pos[1] + size), (pos[0], pos[1] - size), 5)
-			pygame.draw.line(game.window, (35, 35, 135), (pos[0] + size, pos[1]), (pos[0] - size, pos[1]), 5)
+			pygame.draw.line(game.window, self.c, (pos[0], pos[1] + size), (pos[0], pos[1] - size), 5)
+			pygame.draw.line(game.window, self.c, (pos[0] + size, pos[1]), (pos[0] - size, pos[1]), 5)
 
 
 class EnemySpawner(Sprite):
@@ -173,7 +175,7 @@ class EnemySpawner(Sprite):
 
 
 class EnemyMoveAuth(Sprite):
-	AUTH_TIME = 2 # Amount of frames between player moving and enemies moving
+	AUTH_TIME = 0 # Amount of frames between player moving and enemies moving
 	LAYER = "MANAGER"
 
 	def __init__(self):

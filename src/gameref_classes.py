@@ -225,3 +225,30 @@ class ScreenshakeManager(GameClass):
 			else:
 				self._is_shaking = False
 				self.x, self.y = 0, 0
+
+
+class DebugTools(GameClass):
+	@GameClass.constructor
+	def __init__(self, font=None, fontsize=30):
+		pygame.font.init()
+
+		if font is None:
+			print("Initilialising optional Gameref module DebugTools with font of None. This will cause the program to break when built with pyinstaller")
+
+		self._fontname = font
+		self._fontsize = fontsize
+		self._font = pygame.font.Font(self._fontname, self._fontsize)
+
+		self._text = []
+
+	def display_text(self, text):
+		assert type(text) == str
+		for line in text.split('\n'):
+			self._text.append(line)
+
+	def update(self):
+		for y in range(len(self._text)-1, -1, -1):
+			txt = self._text.pop(y)
+
+			f = self._font.render(txt, False, (255, 255, 255))
+			self.game.window.blit(f, (10, (self._fontsize+(self._fontsize//6)) * y + 10))

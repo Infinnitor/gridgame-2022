@@ -18,13 +18,19 @@ REQUIRED_MODULES = {
 }
 
 
+OPTIONAL_MODULES = {
+	"init_debug" : False
+}
+
+
 class GameNamespace:
 	def __init__(self, size):
 		self.WIDTH, self.HEIGHT = size
 		self.window = pygame.Surface(size)
 		self.running = True
 
-	def init_display(self, size, window_type=pygame.SHOWN):
+	def init_display(self, size, window_type=pygame.SHOWN, name="pygame window"):
+		pygame.display.set_caption(name)
 		self.UWIDTH, self.UHEIGHT = size
 		self.uwindow = pygame.display.set_mode(size, window_type)
 
@@ -67,6 +73,10 @@ class GameNamespace:
 		REQUIRED_MODULES["init_audio"] = True
 		return self
 
+	def init_debug(self, font=None, fontsize=30):
+		self.debug = DebugTools(self, font, fontsize)
+		OPTIONAL_MODULES["init_debug"] = True
+
 	def validate(self):
 		if not all(REQUIRED_MODULES.values()):
 			msg = f"Not all required modules have been initialised. Missing: {[k for k, v in REQUIRED_MODULES.items() if not v]}"
@@ -89,6 +99,9 @@ def gameloop(func):
 			game.sprites.update()
 			game.screenshake.update()
 			game.hooks.update(pre=False)
+
+			if OPTIONAL_MODULES["init_debug"]:
+				game.debug.update()
 
 			t = pygame.transform.scale(game.window, [game.UWIDTH, game.UHEIGHT])
 			game.uwindow.blit(t, (game.screenshake.x, game.screenshake.y))
