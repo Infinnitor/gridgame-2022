@@ -6,13 +6,8 @@ from random import randint
 from util.base import Namespace
 from util.colour import shiftcol
 
+from constants import Tiles, TILE_SIZE
 
-Tiles = Namespace(
-	Empty=0,
-	Wall=1,
-	Player=2,
-	Enemy=3,
-)
 
 _tile_colours = {
 	0 : (95, 95, 95),
@@ -20,10 +15,6 @@ _tile_colours = {
 	2 : (10, 10, 10),
 	3 : (35, 35, 195)
 }
-
-
-Tiles.exists = lambda c: c in Tiles.__dict__.values()
-TILE_SIZE = 60
 
 
 class Grid(RectSprite):

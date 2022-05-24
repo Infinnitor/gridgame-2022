@@ -1,6 +1,7 @@
 import pygame
 from sprite import *
-from grid import Tiles, TILE_SIZE
+from constants import Tiles, TILE_SIZE
+
 from enemies import Enemy
 
 import math
@@ -83,7 +84,7 @@ class Player(Sprite):
 								kills += 1
 
 								e.kill()
-								p = [check_pos[0]*grid.TILE_SIZE + grid.TILE_SIZE//2, check_pos[1]*grid.TILE_SIZE + grid.TILE_SIZE//2]
+								p = [check_pos[0]*TILE_SIZE + TILE_SIZE//2, check_pos[1]*TILE_SIZE + TILE_SIZE//2]
 								a_range = math.degrees(math.atan2(vel[1], vel[0]))
 								game.sprites.news(*gore.Gore.goresplash(p, [a_range-50, a_range+50], game.sprites.GORESURF))
 								game.screenshake.init_box_shake(10, 4)

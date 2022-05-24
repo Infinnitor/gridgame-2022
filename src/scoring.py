@@ -1,8 +1,8 @@
 from sprite import *
+from constants import SCORE_TIMER
 
 
 class ScoreBoard(Sprite):
-	COMBO_TICKER_LENGTH = 120
 	LAYER = "MANAGER"
 
 	def __init__(self):
@@ -21,13 +21,13 @@ class ScoreBoard(Sprite):
 	def update_move(self, game):
 		game.debug.display_text(f"SCORE: {self._score}")
 		game.debug.display_text(f"COMBO: {self._combo}")
-		game.debug.display_text(str(ScoreBoard.COMBO_TICKER_LENGTH - self._combo_ticker))
+		game.debug.display_text(str(SCORE_TIMER - self._combo_ticker))
 
 		if game.sprites.PLAYER.destroy is True:
 			return
 
 		self._combo_ticker += 1
-		if self._combo_ticker > ScoreBoard.COMBO_TICKER_LENGTH:
+		if self._combo_ticker > SCORE_TIMER:
 			self._combo_ticker = 0
 			self._combo = 0
 

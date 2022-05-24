@@ -5,6 +5,8 @@ import pygame.draw
 import math
 from random import randint
 
+from constants import Tiles, TILE_SIZE
+
 
 # Surface for storing gore pixels
 class GoreSurface(RectSprite):
@@ -17,7 +19,7 @@ class GoreSurface(RectSprite):
 
 	@staticmethod
 	def from_grid(grid):
-		return GoreSurface(grid.pos(), [grid.w*grid.TILE_SIZE, grid.h*grid.TILE_SIZE])
+		return GoreSurface(grid.pos(), [grid.w*TILE_SIZE, grid.h*TILE_SIZE])
 
 	def update_draw(self, game):
 		game.window.blit(self.surface, self.pos())
