@@ -12,4 +12,4 @@ Tiles.exists = lambda c: c in Tiles.__dict__.values()
 TILE_SIZE = 60
 
 
-SCORE_TIMER = 120
+SCORE_TIMER = 140

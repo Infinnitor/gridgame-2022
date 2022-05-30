@@ -7,6 +7,7 @@ from gameref import GameNamespace, gameloop
 import pygame
 
 from using_sprites import *
+from visuals_hooks import *
 
 
 @gameloop
@@ -30,6 +31,8 @@ def main(game):
 
 	game.sprites.ENEMYAUTH = EnemyMoveAuth()
 	game.sprites.new(game.sprites.ENEMYAUTH)
+
+	game.hooks.new(UI_combo_ticker, pre=False)
 
 
 if __name__ == "__main__":

@@ -33,11 +33,11 @@ class ScoreBoard(Sprite):
 			self._combo_ticker = 0
 			self._combo = 0
 
-	def update_draw(self, game):
-		x, y = game.sprites.GRID.relative_pos(game.sprites.PLAYER.pos(), center=False)
-
-		rat = 1 - (self._combo_ticker / SCORE_TIMER)
-		pygame.draw.rect(game.window, (195, 35, 35), [x, y+(TILE_SIZE-10), TILE_SIZE*rat, 10])
+	# def update_draw(self, game):
+	# 	x, y = game.sprites.GRID.relative_pos(game.sprites.PLAYER.pos(), center=False)
+	#
+	# 	rat = 1 - (self._combo_ticker / SCORE_TIMER)
+	# 	pygame.draw.rect(game.window, (195, 35, 35), [x, y+(TILE_SIZE-10), TILE_SIZE*rat, 10])
 
 	def get_score(self):
 		return self._score
