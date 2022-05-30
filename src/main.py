@@ -7,12 +7,14 @@ from gameref import GameNamespace, gameloop
 import pygame
 
 from using_sprites import *
-from visuals_hooks import *
+from game_hooks import *
+from visual_effects import *
 
 
 @gameloop
 def main(game):
 	game.sprites.purge()
+	game.hooks.clear()
 
 	game.sprites.GRID = Grid.new((10, 10), game)
 	game.sprites.new(game.sprites.GRID)
@@ -34,6 +36,8 @@ def main(game):
 
 	game.hooks.new(UI_combo_ticker, pre=False)
 
+	game.hooks.new(reset_hook(main))
+	game.hooks.new(fps_hook)
 
 if __name__ == "__main__":
 
@@ -43,7 +47,7 @@ if __name__ == "__main__":
 	g.init_sprites("ENEMYVISUALS", "PLAYER", "MANAGER", "ENEMY", "GRID", "SNIPER", "GORE", "HIGHPARTICLE", "FOREGROUND", "UI")
 	g.init_clock(60)
 	# g.init_clock(60 if len(sys.argv) < 2 else int(sys.argv[1]))
-	g.init_hooks(lambda game: main(game) if game.input.check_key(pygame.K_r, buffer=True) else None)
+	g.init_hooks()
 	g.init_audio(sfx={
 		"walk" : "data/sfx/walk.wav",
 		"attack" : "data/sfx/attack.wav",
