@@ -9,6 +9,9 @@ import math
 import particles
 import gore
 
+from player_keybinds import PlayerActions
+
+
 
 class Player(Sprite):
 	LAYER = "PLAYER"
@@ -35,10 +38,10 @@ class Player(Sprite):
 		if game.sprites.ENEMYAUTH.enemy_turn is False:
 			vel = [0, 0]
 			# Check movement on horizontal axis
-			if game.input.check_key(pygame.K_LEFT, buffer=True):
+			if game.input.check_key(*PlayerActions.LEFT, buffer=True):
 				vel = [-1, 0]
 				self.has_moved_this_frame = True
-			elif game.input.check_key(pygame.K_RIGHT, buffer=True):
+			elif game.input.check_key(*PlayerActions.RIGHT, buffer=True):
 				vel = [1, 0]
 				self.has_moved_this_frame = True
 
@@ -51,11 +54,11 @@ class Player(Sprite):
 
 			if self.has_moved_this_frame is False:
 				# Check movement on vertical axis
-				if game.input.check_key(pygame.K_UP, buffer=True):
+				if game.input.check_key(*PlayerActions.UP, buffer=True):
 					vel = [0, -1]
 					self.has_moved_this_frame = True
 
-				elif game.input.check_key(pygame.K_DOWN, buffer=True):
+				elif game.input.check_key(*PlayerActions.DOWN, buffer=True):
 					vel = [0, 1]
 					self.has_moved_this_frame = True
 

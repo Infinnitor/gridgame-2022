@@ -1,5 +1,5 @@
 from grid import Grid
-from playerclass import Player
+from player_class import Player
 from enemies import Enemy, EnemySpawner, Sniper, EnemyMoveAuth
 
 from gore import GoreSurface

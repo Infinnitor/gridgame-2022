@@ -23,7 +23,7 @@ OPTIONAL_MODULES = {
 }
 
 
-class GameNamespace:
+class GameNamespace():
 	def __init__(self, size):
 		self.WIDTH, self.HEIGHT = size
 		self.window = pygame.Surface(size)

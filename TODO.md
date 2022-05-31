@@ -1,7 +1,13 @@
 # TODO:
 
-- make some sprites
+by order of importance
 
-- add undo feature
+1. make some sprites
 
-- add surrounded system (when player gets softlocked by grid configuration)
+2. add undo feature
+
+3. add surrounded system (when player gets softlocked by grid configuration)
+
+4. add menu and more gameloops
+
+5. improve ui

@@ -12,7 +12,7 @@ def reset_hook(callback):
 
 
 def fps_hook(game):
-	game.debug.display_text(f"FPS: {game.state.framerate}")
+	game.debug.display_text(f"FPS: {round(game.state.framerate)}")
 
 
 

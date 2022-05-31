@@ -1,7 +1,6 @@
 import pygame
 import time
 from util.debug import Debug
-from util.base import Namespace
 
 import os.path
 from random import randint
