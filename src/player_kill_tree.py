@@ -1,7 +1,13 @@
 from pygame import Surface, SRCALPHA
 import pygame.draw
+
 from sprite import *
 from constants import TILE_SIZE
+
+import random
+from visual_effects import decay_mut
+
+import asset
 
 
 class PlayerKillTree(RectSprite):
@@ -33,28 +39,35 @@ class PlayerKillTree(RectSprite):
 		for y in range(len(self._killsmap)):
 			for x in range(len(self._killsmap[y])):
 				if self._killsmap[y][x]:
-					br = [
-						x*TILE_SIZE + 10,
-						y*TILE_SIZE + 10,
-						TILE_SIZE - 20,
-						TILE_SIZE - 20
+					bpos = [
+						x*TILE_SIZE,
+						y*TILE_SIZE
 					]
 
-					clr = [35, 35, 35]
-					if self._killsmap_check([x+1, y]) or self._killsmap_check([x-1, y]):
-						clr[0] = 155
-					if self._killsmap_check([x, y+1]) or self._killsmap_check([x, y-1]):
-						clr[1] = 155
+					if self._killsmap_check([x+1, y]):
+						self._surface.blit(asset.vfx_killsmap.RIGHT, bpos)
+					if self._killsmap_check([x-1, y]):
+						self._surface.blit(asset.vfx_killsmap.LEFT, bpos)
+					if self._killsmap_check([x, y+1]):
+						self._surface.blit(asset.vfx_killsmap.DOWN, bpos)
+					if self._killsmap_check([x, y-1]):
+						self._surface.blit(asset.vfx_killsmap.UP, bpos)
 
-					# Green = above/below
-					# Red = left/right
-					# Yellow = left/right + above/below
-
-					pygame.draw.rect(self._surface, clr, br)
-
+					# clr = [35, 35, 35]
+					# if self._killsmap_check([x+1, y]) or self._killsmap_check([x-1, y]):
+					# 	clr[0] = 155
+					# if self._killsmap_check([x, y+1]) or self._killsmap_check([x, y-1]):
+					# 	clr[1] = 155
+					#
+					# # Green = above/below
+					# # Red = left/right
+					# # Yellow = left/right + above/below
+					#
+					# pygame.draw.rect(self._surface, clr, br)
 
 
 		self._lifetime = 60
+		self._decay_rate = self._lifetime*10
 
 	def _killsmap_check(self, pos):
 		try:
@@ -66,6 +79,11 @@ class PlayerKillTree(RectSprite):
 		self._lifetime -= 1
 		if self._lifetime < 1:
 			self.kill()
+
+		if self._lifetime < 40:
+			if not decay_mut(self._surface, self._decay_rate):
+				self.kill()
+
 
 	def update_draw(self, game):
 		game.window.blit(self._surface, self.pos())
