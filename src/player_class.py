@@ -10,6 +10,7 @@ import particles
 import gore
 
 from player_keybinds import PlayerActions
+from player_kill_tree import PlayerKillTree
 
 
 
@@ -68,7 +69,7 @@ class Player(Sprite):
 			self.y = 0 if self.y > grid.h-1 else self.y
 			self.y = grid.h-1 if self.y < 0 else self.y
 
-		def collision_check(kills=0):
+		def collision_check(mut, kills=0):
 			# Check for enemy collision
 			sq = grid.getsq(self.pos())
 			if sq == Tiles.Enemy:
@@ -76,6 +77,7 @@ class Player(Sprite):
 				# Check for 3 enemies in a row
 				for i in range(-1, 2):
 					check_pos = (
+						# If travelling up then the x stays the same, if travelling sideways the y stays the same
 						self.x if abs(vel[0]) else self.x + i,
 						self.y if abs(vel[1]) else self.y + i,
 					)
@@ -85,6 +87,7 @@ class Player(Sprite):
 						for e in game.sprites.get("ENEMY"):
 							if check_pos == e.pos():
 								kills += 1
+								killsmap.append(check_pos)
 
 								e.kill()
 								p = [check_pos[0]*TILE_SIZE + TILE_SIZE//2, check_pos[1]*TILE_SIZE + TILE_SIZE//2]
@@ -98,7 +101,7 @@ class Player(Sprite):
 				if grid.getsq(check_again) == Tiles.Enemy:
 					self.x += vel[0]
 					self.y += vel[1]
-					collision_check(kills)
+					collision_check(mut, kills)
 
 			# Reset position if touching wall
 			elif sq == Tiles.Wall:
@@ -107,8 +110,13 @@ class Player(Sprite):
 
 			return kills
 
+		killsmap = []
 		# Recursive function to kill enemies in a pattern
-		game.sprites.SCORE.increase_score(collision_check())
+		killsno = collision_check(killsmap)
+		game.sprites.SCORE.increase_score(killsno)
+
+		if len(killsmap) > 1:
+			game.sprites.new(PlayerKillTree(killsmap, game))
 
 		grid.setsq(self.pos(), Tiles.Player)
 		# self.has_moved_this_frame = game.input.check_key(pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN, buffer=True)
@@ -116,7 +124,7 @@ class Player(Sprite):
 		if self.has_moved_this_frame:
 			game.audio.playsound("walk")
 
-		collision_check()
+		# collision_check()
 
 	def death(self, game):
 		self.kill()

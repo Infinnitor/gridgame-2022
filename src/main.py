@@ -21,7 +21,13 @@ def main(game):
 
 	game.sprites.PLAYER = Player([1, 1])
 	game.sprites.new(game.sprites.PLAYER)
-	game.sprites.new(Enemy.new(game))
+	for x in range(game.sprites.PLAYER.x+1, game.sprites.PLAYER.x+5):
+		game.sprites.new(Enemy([x, game.sprites.PLAYER.y]))
+	for x in range(game.sprites.PLAYER.x+1, game.sprites.PLAYER.x+4):
+		game.sprites.new(Enemy([x, game.sprites.PLAYER.y+1]))
+
+
+	# game.sprites.new(Enemy.new(game))
 
 	game.sprites.GORESURF = GoreSurface.from_grid(game.sprites.GRID)
 
