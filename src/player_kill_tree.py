@@ -46,6 +46,10 @@ class PlayerKillTree(RectSprite):
 					if self._killsmap_check([x, y+1]) or self._killsmap_check([x, y-1]):
 						clr[1] = 155
 
+					# Green = above/below
+					# Red = left/right
+					# Yellow = left/right + above/below
+
 					pygame.draw.rect(self._surface, clr, br)
 
 

@@ -69,7 +69,7 @@ class Player(Sprite):
 			self.y = 0 if self.y > grid.h-1 else self.y
 			self.y = grid.h-1 if self.y < 0 else self.y
 
-		def collision_check(mut, kills=0):
+		def collision_check(mut):
 			# Check for enemy collision
 			sq = grid.getsq(self.pos())
 			if sq == Tiles.Enemy:
@@ -86,8 +86,7 @@ class Player(Sprite):
 					if grid.getsq(check_pos) == Tiles.Enemy:
 						for e in game.sprites.get("ENEMY"):
 							if check_pos == e.pos():
-								kills += 1
-								killsmap.append(check_pos)
+								mut.append(check_pos)
 
 								e.kill()
 								p = [check_pos[0]*TILE_SIZE + TILE_SIZE//2, check_pos[1]*TILE_SIZE + TILE_SIZE//2]
@@ -101,22 +100,21 @@ class Player(Sprite):
 				if grid.getsq(check_again) == Tiles.Enemy:
 					self.x += vel[0]
 					self.y += vel[1]
-					collision_check(mut, kills)
+					collision_check(mut)
 
 			# Reset position if touching wall
 			elif sq == Tiles.Wall:
 				self.x, self.y = oldx, oldy
-				return kills
+				return
 
-			return kills
+		if self.has_moved_this_frame:
+			# Recursive function to kill enemies in a pattern
+			killsmap = []
+			collision_check(killsmap)
+			game.sprites.SCORE.increase_score(len(killsmap))
 
-		killsmap = []
-		# Recursive function to kill enemies in a pattern
-		killsno = collision_check(killsmap)
-		game.sprites.SCORE.increase_score(killsno)
-
-		if len(killsmap) > 1:
-			game.sprites.new(PlayerKillTree(killsmap, game))
+			if len(killsmap) > 1:
+				game.sprites.new(PlayerKillTree(killsmap, game))
 
 		grid.setsq(self.pos(), Tiles.Player)
 		# self.has_moved_this_frame = game.input.check_key(pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN, buffer=True)
