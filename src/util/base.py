@@ -8,6 +8,10 @@ class Namespace():
 	def __repr__(self):
 		return repr(self.__dict__)
 
+	def foreach(self, callback):
+		for k, v in self.__dict__.items():
+			self.__dict__[k] = callback(v)
+
 
 class NamespaceRecursive():
 	def __init__(self, **kwargs):

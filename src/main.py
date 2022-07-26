@@ -5,6 +5,7 @@ os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 
 from gameref import GameNamespace, gameloop
 import pygame
+import asset
 
 from using_sprites import *
 from game_hooks import *
@@ -63,4 +64,5 @@ if __name__ == "__main__":
 	})
 	g.init_debug(fontsize=60)
 
+	asset.init_assets()
 	main(g)
