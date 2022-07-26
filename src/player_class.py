@@ -10,7 +10,7 @@ import particles
 import gore
 
 from player_keybinds import PlayerActions
-from player_kill_tree import player_kill_tree_collection
+from player_kill_tree import player_kills_tendrils
 
 
 
@@ -114,7 +114,7 @@ class Player(Sprite):
 			game.sprites.SCORE.increase_score(len(killsmap))
 
 			if len(killsmap) > 1:
-				game.sprites.news(*player_kill_tree_collection(killsmap, game))
+				game.sprites.news(*player_kills_tendrils(killsmap, game))
 
 		grid.setsq(self.pos(), Tiles.Player)
 		# self.has_moved_this_frame = game.input.check_key(pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN, buffer=True)

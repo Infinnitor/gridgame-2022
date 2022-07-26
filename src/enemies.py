@@ -175,7 +175,7 @@ class EnemySpawner(Sprite):
 
 
 class EnemyMoveAuth(Sprite):
-	AUTH_TIME = 0 # Amount of frames between player moving and enemies moving
+	AUTH_TIME = 0 # Amount of frames between player moving and enemies moving. Straight up not fun to have it any higher than 5
 	LAYER = "MANAGER"
 
 	def __init__(self):
