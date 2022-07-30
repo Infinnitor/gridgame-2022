@@ -2,6 +2,7 @@ from sprite import *
 from constants import SCORE_TIMER, TILE_SIZE
 
 import pygame.draw
+from particles import TextParticle
 
 
 class ScoreBoard(Sprite):
@@ -12,13 +13,23 @@ class ScoreBoard(Sprite):
 		self._combo = 0
 		self._combo_ticker = 0
 
-	def increase_score(self, killsno):
+	def increase_score(self, killsmap, game):
+		killsno = len(killsmap)
+
 		if killsno < 1:
 			return
+
+		for pos in killsmap:
+			x, y = game.sprites.GRID.relative_pos(pos, center=True)
+			tp = TextParticle([x, y], str(self._combo + 1), 40, (255, 255, 255))
+			tp.LAYER = "UI"
+
+			game.sprites.new(tp)
 
 		self._score += killsno * (self._combo + 1)
 		self._combo += killsno
 		self._combo_ticker = 0
+
 
 	def update_move(self, game):
 		game.debug.display_text(f"SCORE: {self._score}")

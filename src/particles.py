@@ -2,7 +2,9 @@ from sprite import *
 import math
 from random import randint
 
+from pygame import Surface, SRCALPHA
 import pygame.draw
+import pygame.font
 
 from util.decorators import kwargsdefaults
 
@@ -30,6 +32,46 @@ class Particle(CircleSprite):
 
 	def update_draw(self, game):
 		pygame.draw.circle(game.window, self.c, (self.x, self.y), self.r)
+
+
+class TextParticle(RectSprite):
+	LAYER = "HIGHPARTICLE"
+
+	def __init__(self, pos, text, text_size, colour=(255, 255, 255), lifetime=45, font=None):
+		self.x, self.y = pos
+		self._text = text
+		self._fontsize = text_size
+		self.c = colour
+
+		self._font = pygame.font.Font(None, self._fontsize) if font is None else font
+
+		self._surface = self._font.render(self._text, True, self.c)
+		self.w, self.h = self._surface.get_size()
+
+		self._lifetime = lifetime
+		self._decay_point = self._lifetime - self._lifetime//3
+		self._decay_amt = (self._surface.get_height() // self._decay_point) + 1
+		self._decay = 0
+
+		print(self)
+
+	def update_move(self, game):
+		self._lifetime -= 1
+		if self._lifetime < self._decay_point:
+			self._decay += self._decay_amt
+			pygame.draw.rect(self._surface, (255, 0, 255), (0, self.h-self._decay, self.w, self._decay))
+			self._surface.set_colorkey((255, 0, 255))
+
+		if self._lifetime < 1:
+			self.kill()
+
+		self.y -= 0.5
+
+	def update_draw(self, game):
+		game.window.blit(self._surface, [
+			self.x - self.w/2,
+			self.y - self.h/2
+		])
 
 
 @kwargsdefaults(radius=15, speed=5, colour=(10, 10, 10))

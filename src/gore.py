@@ -15,7 +15,7 @@ class GoreSurface(RectSprite):
 	def __init__(self, pos, size):
 		super().__init__(pos, size)
 		self.surface = Surface(size, SRCALPHA)
-		# self.surface.fill((195, 35, 195))
+		self.surface.fill((95, 95, 95))
 
 	@staticmethod
 	def from_grid(grid):

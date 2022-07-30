@@ -68,31 +68,26 @@ class Grid(RectSprite):
 		assert Tiles.exists(tile)
 		self._squares[self._loc(*pos)] = tile
 
-	def update_move(self, game):
-		pass
-
 	def update_draw(self, game):
 		RIM = 10
 
-		for y in range(self.h):
-			for x in range(self.w):
-				sq = self.getsq([x, y])
-				if sq != Tiles.Empty:
-					continue
-
-				pygame.draw.rect(
-					game.window,
-					shiftcol(_tile_colours[sq], -15),
-					[self.x + x*TILE_SIZE, self.y + y*TILE_SIZE, TILE_SIZE, TILE_SIZE]
-				)
-
-				pygame.draw.rect(
-					game.window,
-					_tile_colours[sq],
-					[self.x + x*TILE_SIZE, self.y + y*TILE_SIZE - RIM, TILE_SIZE, TILE_SIZE]
-				)
-
-		game.sprites.GORESURF.update_draw(game)
+		# for y in range(self.h):
+		# 	for x in range(self.w):
+		# 		sq = self.getsq([x, y])
+		# 		if sq != Tiles.Empty:
+		# 			continue
+		#
+		# 		pygame.draw.rect(
+		# 			game.window,
+		# 			shiftcol(_tile_colours[sq], -15),
+		# 			[self.x + x*TILE_SIZE, self.y + y*TILE_SIZE, TILE_SIZE, TILE_SIZE]
+		# 		)
+		#
+		# 		pygame.draw.rect(
+		# 			game.window,
+		# 			_tile_colours[sq],
+		# 			[self.x + x*TILE_SIZE, self.y + y*TILE_SIZE - RIM, TILE_SIZE, TILE_SIZE]
+		# 		)
 
 		for y in range(self.h):
 			for x in range(self.w):

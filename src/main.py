@@ -31,6 +31,7 @@ def main(game):
 	# game.sprites.new(Enemy.new(game))
 
 	game.sprites.GORESURF = GoreSurface.from_grid(game.sprites.GRID)
+	game.sprites.new(game.sprites.GORESURF)
 
 	game.sprites.SPAWNER = EnemySpawner()
 	game.sprites.new(game.sprites.SPAWNER)
@@ -45,13 +46,15 @@ def main(game):
 
 	game.hooks.new(reset_hook(main))
 	game.hooks.new(fps_hook)
+	game.hooks.new(spawn_text_particles)
+
 
 if __name__ == "__main__":
 
 	g = GameNamespace([1280, 720])
 	g.init_display([1280, 720], name="H I T")
 	g.init_input()
-	g.init_sprites("ENEMYVISUALS", "PLAYER", "MANAGER", "ENEMY", "GRID", "SNIPER", "GORE", "HIGHPARTICLE", "FOREGROUND", "UI")
+	g.init_sprites("ENEMYVISUALS", "PLAYER", "MANAGER", "ENEMY", "GORE", "GRID", "SNIPER", "HIGHPARTICLE", "FOREGROUND", "UI")
 	g.init_clock(60)
 	# g.init_clock(60 if len(sys.argv) < 2 else int(sys.argv[1]))
 	g.init_hooks()

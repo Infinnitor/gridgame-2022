@@ -111,7 +111,7 @@ class Player(Sprite):
 			# Recursive function to kill enemies in a pattern
 			killsmap = []
 			collision_check(killsmap)
-			game.sprites.SCORE.increase_score(len(killsmap))
+			game.sprites.SCORE.increase_score(killsmap, game)
 
 			if len(killsmap) > 1:
 				game.sprites.news(*player_kills_tendrils(killsmap, game))
