@@ -119,7 +119,7 @@ class Sniper(Sprite):
 						enemy.kill()
 						p = game.sprites.GRID.offset_pos(self._target)
 						game.sprites.news(*gore.Gore.goresplash(p, [0, 359], game.sprites.GORESURF))
-						game.sprites.SCORE.increase_score(1)
+						game.sprites.SCORE.increase_score([self._target], game)
 
 				game.sprites.news(*particles.explosion(10, grid.relative_pos(self._target), radius=10, speed=10))
 				game.screenshake.init_box_shake(3, 2)

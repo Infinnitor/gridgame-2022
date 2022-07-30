@@ -53,8 +53,6 @@ class TextParticle(RectSprite):
 		self._decay_amt = (self._surface.get_height() // self._decay_point) + 1
 		self._decay = 0
 
-		print(self)
-
 	def update_move(self, game):
 		self._lifetime -= 1
 		if self._lifetime < self._decay_point:

@@ -1,12 +1,13 @@
 import pygame.draw
 from constants import SCORE_TIMER, TILE_SIZE
-from particles import TextParticle
+import config
 
+from particles import TextParticle
 from pygame import locals as keys
 
 
 def UI_combo_ticker(game):
-	if game.sprites.PLAYER.destroy:
+	if game.sprites.PLAYER.destroy or not config.SCORE_UI_COMBO:
 		return
 
 	obj = game.sprites.SCORE
